@@ -15,6 +15,7 @@ import com.company.services.UserService;
 
 import static com.company.controllers.UserController.newUser;
 import static com.company.controllers.UserController.validateUser;
+import static com.company.controllers.UserController.verifyUser;
 import static javafx.application.Platform.exit;
 
 
@@ -25,37 +26,67 @@ public class Main {
 
     static ArrayList<User> userList = new ArrayList<User>();
 
-    static int numOfUsers = 1; //Used to set user ID's
+    static int numOfUsers = 0; //Used to set user ID's
 
     public static void main(String[] args) {
 
-        Scanner input = new Scanner(System.in);
+        boolean exit = false;
+        User currentCustomer;
+        Main main = new Main();
+        main.runMenu(exit);
 
-        String inUsername, inPassword, currentCustomer;
+    }
 
-        System.out.println("Welcome to the Bank!");
-        System.out.println("Do you have an account? Y/N");
-        currentCustomer = input.nextLine();
-
-        if(currentCustomer.equals("N") || currentCustomer.equals("n")){
-            newUser(numOfUsers, userList);
-        }
-        else if (currentCustomer.equals("Y") || currentCustomer.equals("y")){
-
-            System.out.println("Enter your username: ");
-            inUsername = input.nextLine();
-
-            System.out.println("Enter your password: ");
-            inPassword = input.nextLine();
-
-            validateUser(inUsername, inPassword, userList);
-        }
-        else {
-            System.out.println("Invalid input");
+    public void runMenu(boolean exit){
+        printHeader();
+        while(!exit){
+            printMenu();
+            int choice = getChoice();
         }
     }
 
+    private int getChoice(){
+        Scanner kb = new Scanner(System.in);
+        int choice = -1;
+        while(choice < 0 || choice > 2){
+            try {
+                System.out.print("\nPlease Enter Choice: ");
+                choice = Integer.parseInt(kb.nextLine());
+            } catch(NumberFormatException e){
+                System.out.println("Invalid Choice, please try again");
+            }
+        }
+        return choice;
+    }
 
+    private void printHeader(){
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("|                                                   |");
+        System.out.println("|            Welcome the our bank!                  |");
+        System.out.println("|                                                   |");
+        System.out.println("|                                                   |");
+        System.out.println("*---------------------------------------------------*");
+    }
+
+    private void printMenu(){
+        System.out.println("Please Make a Selection: ");
+        System.out.println("(1) Login");
+        System.out.println("(2) Register new user");
+        System.out.println("(0) Exit");
+    }
+
+    private void performAction(int choice){
+        switch(){
+            case 1:
+                //verifyUser(numOfUsers, userList);
+                break;
+            case 2:
+                newUser(numOfUsers, userList);
+                break;
+            case 3:
+
+        }
+    }
 }
  /*
          if(user.equals("Leia") && (pass.equals("jedi"))){
