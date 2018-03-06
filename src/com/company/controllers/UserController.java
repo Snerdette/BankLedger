@@ -1,5 +1,7 @@
 package com.company.controllers;
 
+import com.company.entities.Checking;
+import com.company.entities.Transaction;
 import com.company.entities.User;
 
 import java.util.ArrayList;
@@ -39,8 +41,6 @@ public class UserController {
             }
         }
 
-
-
         return currentUserID;
     }
 
@@ -79,6 +79,8 @@ public class UserController {
             while(!validateNewPassword(password));
 
             User newUser = new User(username, password, numOfUsers);
+            int tempId = newUser.getId();
+            Checking newChecking = new Checking(tempId);
             userList.add(newUser);
 
         }

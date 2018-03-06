@@ -10,6 +10,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.List;
 
+import com.company.entities.Checking;
 import com.company.entities.User;
 import com.company.services.UserService;
 
@@ -30,10 +31,6 @@ public class Main {
     static int currentUserID = 0;//Currently Logged in user's ID.
 
     public static void main(String[] args) {
-
-
-
-
 
         Main main = new Main();
 
@@ -112,7 +109,7 @@ public class Main {
                     System.out.println("Thank you for visiting our Bank, Please com again (^_^)");
                     break;
                 case 1:
-                    currentUserID = loginUser(numOfUsers, userList, currentUserID);
+                    double balance = Checking.getBalance();
                     break;
                 case 2:
                     System.out.println("Registering new user..");
