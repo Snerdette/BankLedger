@@ -27,9 +27,28 @@ public class Main {
 
     boolean exit = false; //Used for exciting the menu.
 
-    static int currentUserID;//Currently Logged in user's ID.
+    static int currentUserID = 0;//Currently Logged in user's ID.
 
     public static void main(String[] args) {
+
+
+
+
+
+        Main main = new Main();
+
+        if(currentUserID == 0){
+            System.out.println("Entering Login Menu");
+            main.runLoginMenu();
+        } else {
+            System.out.println("Entering User Menu");
+            main.runUserMenu();
+        }
+
+
+    }
+
+    public void runLoginMenu(){
 
         int choice = -1;
         Scanner input = new Scanner(System.in);
@@ -58,18 +77,62 @@ public class Main {
                     newUser(numOfUsers, userList);
                     input.nextLine();
                     System.out.println("Done registering new user!");
+                    choice = 4;
+                    runUserMenu();
                     break;
                 default:
                     System.out.println("Default case selected");
             }
+            input.nextLine();
         } while (choice != 0);
+    }
+
+    public void runUserMenu(){
+
+        int choice = -1;
+        Scanner input = new Scanner(System.in);
 
 
-        //Main main = new Main();
-        //main.runMenu();
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("|            Welcome the our bank!                  |");
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("*            Enter (0) to Exit                      *");
+        System.out.println("*            Enter (1) to View Balance              *");
+        System.out.println("*            Enter (2) to Make a Deposit            *");
+        System.out.println("*            Enter (3) to Make a Withdrawal         *");
+        System.out.println("*            Enter (4) to See Transaction History   *");
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("\nEnter Choice: ");
 
+        choice = input.nextInt();
+
+        do {
+            switch (choice) {
+                case 0:
+                    System.out.println("Thank you for visiting our Bank, Please com again (^_^)");
+                    break;
+                case 1:
+                    currentUserID = loginUser(numOfUsers, userList, currentUserID);
+                    break;
+                case 2:
+                    System.out.println("Registering new user..");
+                    newUser(numOfUsers, userList);
+                    input.nextLine();
+                    System.out.println("Done registering new user!");
+                    choice = 4;
+                    break;
+                default:
+                    System.out.println("Default case selected");
+            }
+            input.nextLine();
+        } while (choice != 0);
     }
 }
+
+
+
+
+
 /*
     public void runMenu(){
         printHeader();

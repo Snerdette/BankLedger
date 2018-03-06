@@ -81,12 +81,9 @@ public class UserController {
             User newUser = new User(username, password, numOfUsers);
             userList.add(newUser);
 
-        } else {
-            System.out.println("Invalid username, please try again");
         }
 
         System.out.println("Welcome " + username + " to our bank!");
-
     }
 
     public static boolean validateNewPassword(String password){
