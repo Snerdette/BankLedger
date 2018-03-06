@@ -29,8 +29,8 @@ public class Checking {
         return balance;
     }
 
-    public void setBalance(Double balance) {
-        this.balance = balance;
+    public static void setBalance(Double balance) {
+        Checking.balance = balance;
     }
 
     public void setTransactions(List<Transaction> transactions){
@@ -41,10 +41,5 @@ public class Checking {
         return transactions;
     }
 
-    public static double updateBalance(double amount){
 
-        balance = amount + balance;
-
-        return balance;
-    }
 }

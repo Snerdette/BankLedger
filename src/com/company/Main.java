@@ -9,6 +9,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.List;
+import java.text.DecimalFormat;
 
 import com.company.controllers.CheckingController;
 import com.company.entities.Checking;
@@ -97,18 +98,21 @@ public class Main {
         double balance = getBalance();
         double amount = 0.00;
 
+        DecimalFormat dec = new DecimalFormat("#0.00");
+
 
         System.out.println("*---------------------------------------------------*");
         System.out.println("|            "+currentUser.getUsername()+"                  |");
         System.out.println("|            Welcome the our bank!                  |");
         System.out.println("*---------------------------------------------------*");
-        System.out.println("*------------Current Balance: $" + balance + "---------------------*");
+
         System.out.println("*---------------------------------------------------*");
         System.out.println("*            Enter (0) to Exit                      *");
         System.out.println("*            Enter (1) to Make a Deposit            *");
         System.out.println("*            Enter (2) to Make a Withdrawal         *");
         System.out.println("*            Enter (3) to See Transaction History   *");
         System.out.println("*---------------------------------------------------*");
+        System.out.println(dec.format(balance));
         System.out.println("\nEnter Choice: ");
         System.out.println();
 
@@ -122,14 +126,20 @@ public class Main {
                 case 1:
                     System.out.println("How Much would you like to deposit?");
                     amount = input.nextDouble();
-                    balance = balance + amount;
-                    Checking.updateBalance(balance);
+                    //balance = balance + amount;
+                    CheckingController.updateBalance(amount, "deposit");
                     input.nextLine();
+                    amount = 0.00;
                     runUserMenu(currentUser);
                     break;
                 case 2:
-                    System.out.println("Making Deposit...");
+                    System.out.println("How Much would you like to withdraw?");
+                    amount = input.nextDouble();
+                    //balance = balance - amount;
+                    CheckingController.updateBalance(amount, "withdraw");
+                    //amount = 0.00;
                     input.nextLine();
+                    runUserMenu(currentUser);
                     break;
                 default:
                     System.out.println("Default case selected");
