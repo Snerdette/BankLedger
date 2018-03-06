@@ -10,11 +10,14 @@ import java.util.regex.Pattern;
 
 public class UserController {
 
-    private static String PASSWORD_POLICY_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-    private static String USERNAME_POLICY_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=\\S+$).{8,}$";
+    private static String PASSWORD_POLICY_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*])(?=\\S+$).{8,}$";
+    private static String USERNAME_POLICY_PATTERN = "^(?=.*[a-z]).{8,}$";
 
-    public static User loginUser(){
+    public static int loginUser(int numOfUsers, ArrayList<User> userList, int currentUserID){
+
         String inUsername, inPassword;
+
+        boolean isValid = false;
         Scanner input = new Scanner(System.in);
 
         System.out.println("Enter your username: ");
@@ -23,33 +26,30 @@ public class UserController {
         System.out.println("Enter your password: ");
         inPassword = input.nextLine();
 
-
-
-        return currentUser;
-    }
-
-    public static boolean verifyUser(int numOfUsers, ArrayList<User> userList){
-
-        boolean isValid = false;
-
         Iterator itr = userList.iterator();
 
-        for(user: userList){
-
-        }
         while(itr.hasNext()){
             User user = (User)itr.next();
-            System.out.println("Username: " + inUsername);
+            System.out.println("Iterator: Username: " + inUsername);
 
-            if()
+            if(user.getUsername().equals(inUsername) && user.getPassword().equals(inPassword)){
+                System.out.println("Username and password have been validated, Welcome " + user.getUsername());
+                isValid = true;
+                currentUserID = user.getId();
+            }
         }
 
-        return isValid;
+
+
+        return currentUserID;
     }
 
+
     public static void newUser(int numOfUsers, ArrayList<User> userList){
-        String username;
-        String password;
+
+        System.out.println("Getting ready to welcome a new user....");
+
+        String username, password;
         boolean userValid = false;
         boolean passwordValid = false;
 
@@ -58,17 +58,19 @@ public class UserController {
         System.out.println("Please enter a new username: ");
         username = input.nextLine();
 
-        do {
-            System.out.println("Invalid username, Username must have at least one lowercase, one uppercase letters, and be at least 8 characters long ");
-            System.out.println("Please enter a new username: ");
-            username = input.nextLine();
+        if(!validateNewUsername(username)){
+            do {
+                System.out.println("Invalid username, Username must be at least 8 characters long. please try again: ");
+                username = input.nextLine();
+            }
+            while(!validateNewUsername(username));
         }
-        while(!validateNewUsername(username));
 
-        if(validateNewUsername(username)){
+        System.out.println("Please enter a new password: ");
+        password = input.nextLine();
 
-            System.out.println("Please enter a new password: ");
-            password = input.nextLine();
+        if(!validateNewPassword(password)){
+
             do{
                 System.out.println("Invalid password, Password must have at least one lowercase, one uppercase letters, one special character, and be at least 8 characters long ");
                 System.out.println("Please enter a new password: ");
@@ -83,6 +85,7 @@ public class UserController {
             System.out.println("Invalid username, please try again");
         }
 
+        System.out.println("Welcome " + username + " to our bank!");
 
     }
 

@@ -13,9 +13,7 @@ import java.util.List;
 import com.company.entities.User;
 import com.company.services.UserService;
 
-import static com.company.controllers.UserController.newUser;
-import static com.company.controllers.UserController.validateUser;
-import static com.company.controllers.UserController.verifyUser;
+import static com.company.controllers.UserController.*;
 import static javafx.application.Platform.exit;
 
 
@@ -23,21 +21,57 @@ import static javafx.application.Platform.exit;
 public class Main {
 
 
-
     static ArrayList<User> userList = new ArrayList<User>();
 
     static int numOfUsers = 0; //Used to set user ID's
 
+    boolean exit = false; //Used for exciting the menu.
+
+    static int currentUserID;//Currently Logged in user's ID.
+
     public static void main(String[] args) {
 
-        boolean exit = false;
-        User currentCustomer;
-        Main main = new Main();
-        main.runMenu(exit);
+        int choice = -1;
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("|            Welcome the our bank!                  |");
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("*            Enter (0) to Exit                     *");
+        System.out.println("*            Enter (1) to Login                     *");
+        System.out.println("*            Enter (2) to Register new users        *");
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("\nEnter Choice: ");
+
+        choice = input.nextInt();
+
+        do {
+            switch (choice) {
+                case 0:
+                    System.out.println("Thank you for visiting our Bank, Please com again (^_^)");
+                    break;
+                case 1:
+                    currentUserID = loginUser(numOfUsers, userList, currentUserID);
+                    break;
+                case 2:
+                    System.out.println("Registering new user..");
+                    newUser(numOfUsers, userList);
+                    input.nextLine();
+                    System.out.println("Done registering new user!");
+                    break;
+                default:
+                    System.out.println("Default case selected");
+            }
+        } while (choice != 0);
+
+
+        //Main main = new Main();
+        //main.runMenu();
 
     }
-
-    public void runMenu(boolean exit){
+}
+/*
+    public void runMenu(){
         printHeader();
         while(!exit){
             printMenu();
@@ -76,19 +110,24 @@ public class Main {
     }
 
     private void performAction(int choice){
-        switch(){
+        switch(choice){
+            case 0:
+                exit = true;
+                System.out.println("Thank you for visiting our Bank, Please com again (^_^)");
+                break;
             case 1:
-                //verifyUser(numOfUsers, userList);
+                currentUserID = loginUser(numOfUsers, userList, currentUserID);
                 break;
             case 2:
+                System.out.println("Registering new user..");
                 newUser(numOfUsers, userList);
                 break;
-            case 3:
-
+            default:
+                System.out.println("Default case selected");
         }
     }
 }
- /*
+
          if(user.equals("Leia") && (pass.equals("jedi"))){
             System.out.println("Welcome " + user);
         }else {
