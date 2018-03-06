@@ -10,11 +10,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.List;
 
+import com.company.controllers.CheckingController;
 import com.company.entities.Checking;
 import com.company.entities.User;
 import com.company.services.UserService;
 
 import static com.company.controllers.UserController.*;
+import static com.company.controllers.CheckingController.*;
+import static com.company.entities.Checking.*;
+import static com.company.entities.Checking.getBalance;
 import static javafx.application.Platform.exit;
 
 
@@ -30,6 +34,8 @@ public class Main {
 
     static int currentUserID = 0;//Currently Logged in user's ID.
 
+    User currentUser;
+
     public static void main(String[] args) {
 
         Main main = new Main();
@@ -39,7 +45,7 @@ public class Main {
             main.runLoginMenu();
         } else {
             System.out.println("Entering User Menu");
-            main.runUserMenu();
+            //main.runUserMenu();
         }
 
 
@@ -71,11 +77,11 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("Registering new user..");
-                    newUser(numOfUsers, userList);
+                    currentUser = newUser(numOfUsers, userList);
                     input.nextLine();
                     System.out.println("Done registering new user!");
                     choice = 4;
-                    runUserMenu();
+                    runUserMenu(currentUser);
                     break;
                 default:
                     System.out.println("Default case selected");
@@ -84,22 +90,27 @@ public class Main {
         } while (choice != 0);
     }
 
-    public void runUserMenu(){
+    public void runUserMenu(User currentUser){
 
         int choice = -1;
         Scanner input = new Scanner(System.in);
+        double balance = getBalance();
+        double amount = 0.00;
 
 
         System.out.println("*---------------------------------------------------*");
+        System.out.println("|            "+currentUser.getUsername()+"                  |");
         System.out.println("|            Welcome the our bank!                  |");
         System.out.println("*---------------------------------------------------*");
+        System.out.println("*------------Current Balance: $" + balance + "---------------------*");
+        System.out.println("*---------------------------------------------------*");
         System.out.println("*            Enter (0) to Exit                      *");
-        System.out.println("*            Enter (1) to View Balance              *");
-        System.out.println("*            Enter (2) to Make a Deposit            *");
-        System.out.println("*            Enter (3) to Make a Withdrawal         *");
-        System.out.println("*            Enter (4) to See Transaction History   *");
+        System.out.println("*            Enter (1) to Make a Deposit            *");
+        System.out.println("*            Enter (2) to Make a Withdrawal         *");
+        System.out.println("*            Enter (3) to See Transaction History   *");
         System.out.println("*---------------------------------------------------*");
         System.out.println("\nEnter Choice: ");
+        System.out.println();
 
         choice = input.nextInt();
 
@@ -109,14 +120,16 @@ public class Main {
                     System.out.println("Thank you for visiting our Bank, Please com again (^_^)");
                     break;
                 case 1:
-                    double balance = Checking.getBalance();
+                    System.out.println("How Much would you like to deposit?");
+                    amount = input.nextDouble();
+                    balance = balance + amount;
+                    Checking.updateBalance(balance);
+                    input.nextLine();
+                    runUserMenu(currentUser);
                     break;
                 case 2:
-                    System.out.println("Registering new user..");
-                    newUser(numOfUsers, userList);
+                    System.out.println("Making Deposit...");
                     input.nextLine();
-                    System.out.println("Done registering new user!");
-                    choice = 4;
                     break;
                 default:
                     System.out.println("Default case selected");
@@ -125,81 +138,3 @@ public class Main {
         } while (choice != 0);
     }
 }
-
-
-
-
-
-/*
-    public void runMenu(){
-        printHeader();
-        while(!exit){
-            printMenu();
-            int choice = getChoice();
-        }
-    }
-
-    private int getChoice(){
-        Scanner kb = new Scanner(System.in);
-        int choice = -1;
-        while(choice < 0 || choice > 2){
-            try {
-                System.out.print("\nPlease Enter Choice: ");
-                choice = Integer.parseInt(kb.nextLine());
-            } catch(NumberFormatException e){
-                System.out.println("Invalid Choice, please try again");
-            }
-        }
-        return choice;
-    }
-
-    private void printHeader(){
-        System.out.println("*---------------------------------------------------*");
-        System.out.println("|                                                   |");
-        System.out.println("|            Welcome the our bank!                  |");
-        System.out.println("|                                                   |");
-        System.out.println("|                                                   |");
-        System.out.println("*---------------------------------------------------*");
-    }
-
-    private void printMenu(){
-        System.out.println("Please Make a Selection: ");
-        System.out.println("(1) Login");
-        System.out.println("(2) Register new user");
-        System.out.println("(0) Exit");
-    }
-
-    private void performAction(int choice){
-        switch(choice){
-            case 0:
-                exit = true;
-                System.out.println("Thank you for visiting our Bank, Please com again (^_^)");
-                break;
-            case 1:
-                currentUserID = loginUser(numOfUsers, userList, currentUserID);
-                break;
-            case 2:
-                System.out.println("Registering new user..");
-                newUser(numOfUsers, userList);
-                break;
-            default:
-                System.out.println("Default case selected");
-        }
-    }
-}
-
-         if(user.equals("Leia") && (pass.equals("jedi"))){
-            System.out.println("Welcome " + user);
-        }else {
-            System.out.println("Username and password do not match any current users, would you like to register? Y/N");
-            String register;
-            register = input.nextLine();
-
-            if(register.equals("Y") || register.equals("y")){
-                newUser(numOfUsers);
-            }else {
-                System.out.println("You've opted not to register, goodbye");
-                exit();
-            }
-        }
-  */

@@ -45,7 +45,7 @@ public class UserController {
     }
 
 
-    public static void newUser(int numOfUsers, ArrayList<User> userList){
+    public static User newUser(int numOfUsers, ArrayList<User> userList){
 
         System.out.println("Getting ready to welcome a new user....");
 
@@ -77,15 +77,16 @@ public class UserController {
                 password = input.nextLine();
             }
             while(!validateNewPassword(password));
-
-            User newUser = new User(username, password, numOfUsers);
-            int tempId = newUser.getId();
-            Checking newChecking = new Checking(tempId);
-            userList.add(newUser);
-
         }
 
+        User thisUser = new User(username, password, numOfUsers);
+        int tempId = thisUser.getId();
+        Checking newChecking = new Checking(tempId);
+        userList.add(thisUser);
+
         System.out.println("Welcome " + username + " to our bank!");
+
+        return thisUser;
     }
 
     public static boolean validateNewPassword(String password){
