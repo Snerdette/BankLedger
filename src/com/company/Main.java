@@ -4,40 +4,194 @@
 
 package com.company;
 
-import java.awt.*;
+import java.util.ArrayList;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.List;
 
-import src.com.company.entities.User;
+import com.company.entities.User;
+import com.company.services.UserService;
 
+import static com.company.controllers.UserController.*;
 import static javafx.application.Platform.exit;
 
 
 
 public class Main {
 
-    private static String PASSWORD_POLICY_PATTERN = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
-    private static String USERNAME_POLICY_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$";
 
-    List<User> userList;
+    static ArrayList<User> userList = new ArrayList<User>();
 
-    static int numOfUsers = 1; //Used to set user ID's
+    static int numOfUsers = 0; //Used to set user ID's
+
+    boolean exit = false; //Used for exciting the menu.
+
+    static int currentUserID = 0;//Currently Logged in user's ID.
 
     public static void main(String[] args) {
 
+
+
+
+
+        Main main = new Main();
+
+        if(currentUserID == 0){
+            System.out.println("Entering Login Menu");
+            main.runLoginMenu();
+        } else {
+            System.out.println("Entering User Menu");
+            main.runUserMenu();
+        }
+
+
+    }
+
+    public void runLoginMenu(){
+
+        int choice = -1;
         Scanner input = new Scanner(System.in);
 
-        String user, pass;
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("|            Welcome the our bank!                  |");
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("*            Enter (0) to Exit                     *");
+        System.out.println("*            Enter (1) to Login                     *");
+        System.out.println("*            Enter (2) to Register new users        *");
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("\nEnter Choice: ");
 
-        System.out.println("Enter your username: ");
-        user = input.nextLine();
+        choice = input.nextInt();
 
-        System.out.println("Enter your password: ");
-        pass = input.nextLine();
+        do {
+            switch (choice) {
+                case 0:
+                    System.out.println("Thank you for visiting our Bank, Please com again (^_^)");
+                    break;
+                case 1:
+                    currentUserID = loginUser(numOfUsers, userList, currentUserID);
+                    break;
+                case 2:
+                    System.out.println("Registering new user..");
+                    newUser(numOfUsers, userList);
+                    input.nextLine();
+                    System.out.println("Done registering new user!");
+                    choice = 4;
+                    runUserMenu();
+                    break;
+                default:
+                    System.out.println("Default case selected");
+            }
+            input.nextLine();
+        } while (choice != 0);
+    }
 
-        if(user.equals("Leia") && (pass.equals("jedi"))){
+    public void runUserMenu(){
+
+        int choice = -1;
+        Scanner input = new Scanner(System.in);
+
+
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("|            Welcome the our bank!                  |");
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("*            Enter (0) to Exit                      *");
+        System.out.println("*            Enter (1) to View Balance              *");
+        System.out.println("*            Enter (2) to Make a Deposit            *");
+        System.out.println("*            Enter (3) to Make a Withdrawal         *");
+        System.out.println("*            Enter (4) to See Transaction History   *");
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("\nEnter Choice: ");
+
+        choice = input.nextInt();
+
+        do {
+            switch (choice) {
+                case 0:
+                    System.out.println("Thank you for visiting our Bank, Please com again (^_^)");
+                    break;
+                case 1:
+                    currentUserID = loginUser(numOfUsers, userList, currentUserID);
+                    break;
+                case 2:
+                    System.out.println("Registering new user..");
+                    newUser(numOfUsers, userList);
+                    input.nextLine();
+                    System.out.println("Done registering new user!");
+                    choice = 4;
+                    break;
+                default:
+                    System.out.println("Default case selected");
+            }
+            input.nextLine();
+        } while (choice != 0);
+    }
+}
+
+
+
+
+
+/*
+    public void runMenu(){
+        printHeader();
+        while(!exit){
+            printMenu();
+            int choice = getChoice();
+        }
+    }
+
+    private int getChoice(){
+        Scanner kb = new Scanner(System.in);
+        int choice = -1;
+        while(choice < 0 || choice > 2){
+            try {
+                System.out.print("\nPlease Enter Choice: ");
+                choice = Integer.parseInt(kb.nextLine());
+            } catch(NumberFormatException e){
+                System.out.println("Invalid Choice, please try again");
+            }
+        }
+        return choice;
+    }
+
+    private void printHeader(){
+        System.out.println("*---------------------------------------------------*");
+        System.out.println("|                                                   |");
+        System.out.println("|            Welcome the our bank!                  |");
+        System.out.println("|                                                   |");
+        System.out.println("|                                                   |");
+        System.out.println("*---------------------------------------------------*");
+    }
+
+    private void printMenu(){
+        System.out.println("Please Make a Selection: ");
+        System.out.println("(1) Login");
+        System.out.println("(2) Register new user");
+        System.out.println("(0) Exit");
+    }
+
+    private void performAction(int choice){
+        switch(choice){
+            case 0:
+                exit = true;
+                System.out.println("Thank you for visiting our Bank, Please com again (^_^)");
+                break;
+            case 1:
+                currentUserID = loginUser(numOfUsers, userList, currentUserID);
+                break;
+            case 2:
+                System.out.println("Registering new user..");
+                newUser(numOfUsers, userList);
+                break;
+            default:
+                System.out.println("Default case selected");
+        }
+    }
+}
+
+         if(user.equals("Leia") && (pass.equals("jedi"))){
             System.out.println("Welcome " + user);
         }else {
             System.out.println("Username and password do not match any current users, would you like to register? Y/N");
@@ -51,89 +205,4 @@ public class Main {
                 exit();
             }
         }
-
-    }
-
-    private static void displayMenu() {
-        double thc;
-        double cm;
-
-        Scanner reader;
-
-        System.out.println("Please enter the Length in CM");
-        reader=new Scanner(System.in);
-
-        cm=reader.nextDouble();
-        thc=cm/100;
-
-        System.out.print("The length is: ");
-        System.out.println(thc);
-
-    }
-
-    public static void newUser(int numOfUsers){
-        String username;
-        String password;
-
-        Scanner input = new Scanner(System.in);
-        System.out.println("Username mut have at least one lowercase, one uppercase letters, one special character, and be at least 8 characters long");
-        System.out.println("Please enter a new username: ");
-        username = input.nextLine();
-
-        if(validateUsername(username)){
-
-            System.out.println("Please enter a new password: ");
-            password = input.nextLine();
-
-            if(validatePassword(password)){
-                User newUser = new User(username, password);
-            }
-
-        } else {
-            System.out.println("Invalid username, please");
-        }
-
-    }
-
-
-    public static boolean validateUsername(String username){
-        boolean valid = false;
-
-        Pattern pattern;
-        Matcher matcher;
-
-        pattern = Pattern.compile(USERNAME_POLICY_PATTERN);
-        matcher = pattern.matcher(username);
-
-        return matcher.matches();
-    }
-
-
-    public static boolean validatePassword(String password){
-        boolean valid = false;
-
-        Pattern pattern;
-        Matcher matcher;
-
-        pattern = Pattern.compile(PASSWORD_POLICY_PATTERN);
-        matcher = pattern.matcher(password);
-
-        return matcher.matches();
-
-    }
-
-}
-/*
-
-^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\S+$).{8,}$
-Explanation:
-
-^                 # start-of-string
-(?=.*[0-9])       # a digit must occur at least once
-(?=.*[a-z])       # a lower case letter must occur at least once
-(?=.*[A-Z])       # an upper case letter must occur at least once
-(?=.*[@#$%^&+=])  # a special character must occur at least once
-(?=\S+$)          # no whitespace allowed in the entire string
-.{8,}             # anything, at least eight places though
-$                 # end-of-string
- */
+  */

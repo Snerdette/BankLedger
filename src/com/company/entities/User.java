@@ -1,10 +1,21 @@
 package com.company.entities;
 
-class user {
+public class User {
 
     public Integer id;
     public String username;
     public String password;
+
+    public User(){};
+
+    public User(String username, String password, int numOfUsers){
+        numOfUsers++; //Used to set ID's, originally 0, set to 1 for first ID.
+        this.username = username;
+        this.password = password;
+        this.id = numOfUsers;
+
+
+    }
 
     public Integer getId() {
         return id;
