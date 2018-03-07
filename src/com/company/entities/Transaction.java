@@ -1,10 +1,23 @@
 package com.company.entities;
 
+import com.company.entities.Checking;
+
 public class Transaction {
 
     int id;
     double amount;
-    String action;
+    String type;
+    User user;
+
+    public Transaction(){};
+
+    public Transaction(double amount, String type, User user, int transactionsId){
+        this.amount = amount;
+        this.type = type;
+        this.id = id;
+
+        transactionsId++;
+    }
 
     public Integer getId() {
         return id;
@@ -22,12 +35,12 @@ public class Transaction {
         this.amount = amount;
     }
 
-    public String getAction(){
-        return action;
+    public String getType(){
+        return type;
     }
 
-    public void setAction(){
-        this.action = action;
+    public void setType(){
+        this.type = type;
     }
 
 }

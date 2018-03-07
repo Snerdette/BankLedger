@@ -1,8 +1,10 @@
 package com.company.controllers;
 
 import com.company.entities.Checking;
+import com.company.entities.Transaction;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 
 import static com.company.entities.Checking.getBalance;
 
@@ -12,6 +14,7 @@ public class CheckingController {
     public static double updateBalance(double amount, String type){
         double balance = getBalance();
         DecimalFormat dec = new DecimalFormat("#0.00");
+
 
         if(type.equals("withdraw")){
             System.out.println("Making a withdrawl of " + amount + " from the current balance of: " + dec.format(balance));
@@ -31,5 +34,9 @@ public class CheckingController {
         return balance;
     }
 
-
+    public static void newTransaction(Transaction transaction){
+        Checking.getTransactions().add(transaction);
+        System.out.println("New Transaction added.");
+        System.out.println(Checking.getTransactions());
+    }
 }

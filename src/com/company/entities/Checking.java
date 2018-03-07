@@ -1,12 +1,13 @@
 package com.company.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Checking {
 
     int id;
     static double balance;
-    List<Transaction> transactions;
+    static ArrayList<Transaction> transactions;
 
 
     public Checking(int id){
@@ -33,11 +34,11 @@ public class Checking {
         Checking.balance = balance;
     }
 
-    public void setTransactions(List<Transaction> transactions){
+    public void setTransactions(ArrayList<Transaction> transactions){
         this.transactions = transactions;
     }
 
-    public List<Transaction> getTransactions(){
+    public static List<Transaction> getTransactions(){
         return transactions;
     }
 

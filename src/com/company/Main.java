@@ -31,6 +31,8 @@ public class Main {
 
     static int numOfUsers = 0; //Used to set user ID's
 
+    static int transactionsId = 0;
+
     boolean exit = false; //Used for exciting the menu.
 
     static int currentUserID = 0;//Currently Logged in user's ID.
@@ -76,6 +78,9 @@ public class Main {
                     break;
                 case 1:
                     currentUser = loginUser(numOfUsers, userList, currentUser);
+                    if(currentUser == null){
+                        runLoginMenu(currentUser);
+                    }
                     runUserMenu(currentUser);
                     break;
                 case 2:
@@ -114,7 +119,7 @@ public class Main {
         System.out.println("*     Enter (3) to See Transaction History          *");
         System.out.println("*     Enter (3) to Logout & return to main menu     *");
         System.out.println("*---------------------------------------------------*");
-        System.out.println(dec.format(balance));
+        System.out.println("Your current balance is: $" + dec.format(balance));
         System.out.println("\nEnter Choice: ");
         System.out.println();
 
@@ -129,6 +134,7 @@ public class Main {
                     System.out.println("How Much would you like to deposit?");
                     amount = input.nextDouble();
                     //balance = balance + amount;
+
                     CheckingController.updateBalance(amount, "deposit");
                     input.nextLine();
                     amount = 0.00;
