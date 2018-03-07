@@ -43,7 +43,7 @@ public class Main {
 
         Main main = new Main();
 
-        if(currentUserID == 0){
+        if(currentUser == null){
             System.out.println("Entering Login Menu");
             main.runLoginMenu(currentUser);
         } else {
@@ -106,7 +106,6 @@ public class Main {
         double amount = 0.00;
 
         DecimalFormat dec = new DecimalFormat("#0.00");
-
 
         System.out.println("*---------------------------------------------------*");
         System.out.println("|            "+currentUser.getUsername()+"                  |");
