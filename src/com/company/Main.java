@@ -35,7 +35,7 @@ public class Main {
 
     static int currentUserID = 0;//Currently Logged in user's ID.
 
-    User currentUser;
+    static User currentUser;
 
     public static void main(String[] args) {
 
@@ -43,7 +43,7 @@ public class Main {
 
         if(currentUserID == 0){
             System.out.println("Entering Login Menu");
-            main.runLoginMenu();
+            main.runLoginMenu(currentUser);
         } else {
             System.out.println("Entering User Menu");
             //main.runUserMenu();
@@ -52,17 +52,18 @@ public class Main {
 
     }
 
-    public void runLoginMenu(){
+    public void runLoginMenu(User currentUser){
 
         int choice = -1;
         Scanner input = new Scanner(System.in);
+        currentUser = null;
 
         System.out.println("*---------------------------------------------------*");
         System.out.println("|            Welcome the our bank!                  |");
         System.out.println("*---------------------------------------------------*");
         System.out.println("*            Enter (0) to Exit                     *");
         System.out.println("*            Enter (1) to Login                     *");
-        System.out.println("*            Enter (2) to Register new users        *");
+        System.out.println("*            Enter (2) to Register a new user       *");
         System.out.println("*---------------------------------------------------*");
         System.out.println("\nEnter Choice: ");
 
@@ -74,7 +75,8 @@ public class Main {
                     System.out.println("Thank you for visiting our Bank, Please com again (^_^)");
                     break;
                 case 1:
-                    currentUserID = loginUser(numOfUsers, userList, currentUserID);
+                    currentUser = loginUser(numOfUsers, userList, currentUser);
+                    runUserMenu(currentUser);
                     break;
                 case 2:
                     System.out.println("Registering new user..");
@@ -105,12 +107,12 @@ public class Main {
         System.out.println("|            "+currentUser.getUsername()+"                  |");
         System.out.println("|            Welcome the our bank!                  |");
         System.out.println("*---------------------------------------------------*");
-
         System.out.println("*---------------------------------------------------*");
-        System.out.println("*            Enter (0) to Exit                      *");
-        System.out.println("*            Enter (1) to Make a Deposit            *");
-        System.out.println("*            Enter (2) to Make a Withdrawal         *");
-        System.out.println("*            Enter (3) to See Transaction History   *");
+        System.out.println("*     Enter (0) to Exit                             *");
+        System.out.println("*     Enter (1) to Make a Deposit                   *");
+        System.out.println("*     Enter (2) to Make a Withdrawal                *");
+        System.out.println("*     Enter (3) to See Transaction History          *");
+        System.out.println("*     Enter (3) to Logout & return to main menu     *");
         System.out.println("*---------------------------------------------------*");
         System.out.println(dec.format(balance));
         System.out.println("\nEnter Choice: ");
@@ -121,7 +123,7 @@ public class Main {
         do {
             switch (choice) {
                 case 0:
-                    System.out.println("Thank you for visiting our Bank, Please com again (^_^)");
+                    System.out.println("Thank you for visiting our Bank, Please come again (^_^)");
                     break;
                 case 1:
                     System.out.println("How Much would you like to deposit?");
@@ -135,11 +137,13 @@ public class Main {
                 case 2:
                     System.out.println("How Much would you like to withdraw?");
                     amount = input.nextDouble();
-                    //balance = balance - amount;
                     CheckingController.updateBalance(amount, "withdraw");
-                    //amount = 0.00;
                     input.nextLine();
                     runUserMenu(currentUser);
+                    break;
+                case 3:
+                    currentUser = null;
+                    runLoginMenu(currentUser);
                     break;
                 default:
                     System.out.println("Default case selected");

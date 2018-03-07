@@ -1,7 +1,6 @@
 package com.company.controllers;
 
 import com.company.entities.Checking;
-import com.company.entities.Transaction;
 import com.company.entities.User;
 
 import java.util.ArrayList;
@@ -15,7 +14,7 @@ public class UserController {
     private static String PASSWORD_POLICY_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*])(?=\\S+$).{8,}$";
     private static String USERNAME_POLICY_PATTERN = "^(?=.*[a-z]).{8,}$";
 
-    public static int loginUser(int numOfUsers, ArrayList<User> userList, int currentUserID){
+    public static User loginUser(int numOfUsers, ArrayList<User> userList, User currentUser){
 
         String inUsername, inPassword;
 
@@ -37,11 +36,11 @@ public class UserController {
             if(user.getUsername().equals(inUsername) && user.getPassword().equals(inPassword)){
                 System.out.println("Username and password have been validated, Welcome " + user.getUsername());
                 isValid = true;
-                currentUserID = user.getId();
+                currentUser = user;
             }
         }
 
-        return currentUserID;
+        return currentUser;
     }
 
 
