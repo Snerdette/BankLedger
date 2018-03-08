@@ -15,7 +15,7 @@ public class UserController {
     private static String PASSWORD_POLICY_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*])(?=\\S+$).{8,}$";
     private static String USERNAME_POLICY_PATTERN = "^(?=.*[a-z]).{8,}$";
 
-public static User loginUser(int numOfUsers, ArrayList<User> userList, User currentUser) {
+    public static User loginUser(int numOfUsers, ArrayList<User> userList, User currentUser) {
 
     String inUsername, inPassword;
 
@@ -59,9 +59,7 @@ public static User loginUser(int numOfUsers, ArrayList<User> userList, User curr
     return currentUser;
 }
 
-
-
-    public static User newUser(int numOfUsers, ArrayList<User> userList){
+    public static User newUser(int numOfUsers, ArrayList<User> userList, int transactionsId){
 
         System.out.println("Getting ready to welcome a new user....");
 
@@ -95,9 +93,7 @@ public static User loginUser(int numOfUsers, ArrayList<User> userList, User curr
             while(!validateNewPassword(password));
         }
 
-        User thisUser = new User(username, password, numOfUsers);
-        int tempId = thisUser.getId();
-        Checking newChecking = new Checking(tempId);
+        User thisUser = new User(username, password, numOfUsers, transactionsId);
         userList.add(thisUser);
 
         System.out.println("Welcome " + username + " to our bank!");

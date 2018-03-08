@@ -1,6 +1,8 @@
 package com.company.entities;
 
+import com.company.Main;
 import com.company.entities.Checking;
+import java.text.DecimalFormat;
 
 import static com.company.entities.Checking.transactions;
 
@@ -45,13 +47,6 @@ public class Transaction {
         this.type = type;
     }
 
-    public static void printAllTransactions(User currentUser){
-        Checking.getTransactions();
-        int i;
 
-        for(i = 0; i< transactions.size(); i++){
-            System.out.println("ID: " +  " Amount: $ "  );
-        }
-    }
 
 }

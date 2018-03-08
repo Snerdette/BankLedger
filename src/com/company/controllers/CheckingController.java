@@ -27,6 +27,8 @@ public class CheckingController {
             System.out.println("Making a deposit of " + dec.format(amount) + " from the current balance of: " + dec.format(balance));
             balance = amount + balance;
             System.out.println("new balance: " + dec.format(balance));
+        } else if(type.equals("New Account")){
+            System.out.println("New Checking account has been created.");
         } else {
             System.out.println("Error in transaction type");
         }
