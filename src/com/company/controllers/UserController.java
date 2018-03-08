@@ -1,5 +1,7 @@
 package com.company.controllers;
 
+import com.company.Main;
+import com.company.entities.Checking;
 import com.company.entities.User;
 
 import java.util.ArrayList;
@@ -13,39 +15,53 @@ public class UserController {
     private static String PASSWORD_POLICY_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*])(?=\\S+$).{8,}$";
     private static String USERNAME_POLICY_PATTERN = "^(?=.*[a-z]).{8,}$";
 
-    public static int loginUser(int numOfUsers, ArrayList<User> userList, int currentUserID){
+public static User loginUser(int numOfUsers, ArrayList<User> userList, User currentUser) {
 
-        String inUsername, inPassword;
+    String inUsername, inPassword;
 
-        boolean isValid = false;
-        Scanner input = new Scanner(System.in);
+    boolean isValid = false;
+    Scanner input = new Scanner(System.in);
 
-        System.out.println("Enter your username: ");
-        inUsername = input.nextLine();
+    System.out.println("Enter your username: ");
+    inUsername = input.nextLine();
 
-        System.out.println("Enter your password: ");
-        inPassword = input.nextLine();
+    System.out.println("Enter your password: ");
+    inPassword = input.nextLine();
 
-        Iterator itr = userList.iterator();
+    Iterator itr = userList.iterator();
 
-        while(itr.hasNext()){
-            User user = (User)itr.next();
-            System.out.println("Iterator: Username: " + inUsername);
 
-            if(user.getUsername().equals(inUsername) && user.getPassword().equals(inPassword)){
-                System.out.println("Username and password have been validated, Welcome " + user.getUsername());
-                isValid = true;
-                currentUserID = user.getId();
-            }
+    if (userList.size() > 0) {
+        try {
+            do {
+                User user = (User) itr.next();
+                System.out.println("Iterator: Username: " + inUsername);
+
+                if (user.getUsername().equals(inUsername) && user.getPassword().equals(inPassword)) {
+                    System.out.println("Username and password have been validated, Welcome " + user.getUsername());
+                    isValid = true;
+                    currentUser = user;
+                } else {
+                    System.out.println("Username and password do not match any on record, please register or contact your local branch");
+                }
+            } while (itr.hasNext());
+
+        } catch (NullPointerException e) {
+            System.out.println("Catch block " + e);
+            throw e;
+
+        } finally {
+            System.out.println("Finally block");
         }
-
-
-
-        return currentUserID;
+    } else {
+        System.out.println("There are no current registered users, please register!");
     }
+    return currentUser;
+}
 
 
-    public static void newUser(int numOfUsers, ArrayList<User> userList){
+
+    public static User newUser(int numOfUsers, ArrayList<User> userList){
 
         System.out.println("Getting ready to welcome a new user....");
 
@@ -77,13 +93,16 @@ public class UserController {
                 password = input.nextLine();
             }
             while(!validateNewPassword(password));
-
-            User newUser = new User(username, password, numOfUsers);
-            userList.add(newUser);
-
         }
 
+        User thisUser = new User(username, password, numOfUsers);
+        int tempId = thisUser.getId();
+        Checking newChecking = new Checking(tempId);
+        userList.add(thisUser);
+
         System.out.println("Welcome " + username + " to our bank!");
+
+        return thisUser;
     }
 
     public static boolean validateNewPassword(String password){
