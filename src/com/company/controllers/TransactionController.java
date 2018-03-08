@@ -15,16 +15,15 @@ public class TransactionController {
         Checking checking = currentUser.getChecking();
         ArrayList<Transaction> transactions = checking.getTransactions();
 
-        System.out.println("Transactions for User " + currentUser.getUsername());
+        System.out.println("Transactions for " + currentUser.getUsername());
+        System.out.printf( "%4s%-15s%8s\n", "ID: ", " Type: ", " Amount:");
 
         for(Transaction transaction : transactions){
 
             if(transaction.getUser() == currentUser){
-                System.out.println("ID: " + transaction.getId() +
-                        " Type: " + transaction.getType() +
-                        " Amount: $ " + dec.format(transaction.getAmount()));
+                System.out.printf( "%-5s%-12s%10s\n", transaction.getId(), transaction.getType(), dec.format(transaction.getAmount()));
             } else {
-                System.out.println("No Transactions for username: " + currentUser.getUsername());
+                System.out.println("No transactions for: " + currentUser.getUsername());
             }
 
         }

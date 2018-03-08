@@ -1,7 +1,5 @@
 package com.company.entities;
 
-import com.company.controllers.CheckingController;
-
 import java.util.ArrayList;
 
 public class Checking {

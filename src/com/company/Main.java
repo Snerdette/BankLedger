@@ -1,6 +1,7 @@
 // Kathryn LaFrance
-//Bank Ledger
-//
+// Bank Ledger
+// Date: 2018-03-08
+// Version: 1.0
 
 package com.company;
 
@@ -8,35 +9,21 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.text.DecimalFormat;
 
-import com.company.entities.Checking;
 import com.company.entities.User;
-
-import static com.company.controllers.UserController.*;
-import static com.company.entities.User.numOfUsers;
-
+import com.company.entities.Checking;
 import com.company.controllers.CheckingController;
 import com.company.controllers.TransactionController;
-
+import static com.company.controllers.UserController.*;
 
 public class Main {
 
     static ArrayList<User> userList = new ArrayList<User>();
-
-    boolean exit = false; //Used for exciting the menu.
-
     static User currentUser;
 
     public static void main(String[] args) {
 
         Main main = new Main();
-
-        if(currentUser == null){
-            System.out.println("Entering Login Menu");
-            main.runLoginMenu();
-        } else {
-            System.out.println("Entering User Menu");
-            //main.runUserMenu();
-        }
+        main.runLoginMenu();
 
     }
 
@@ -47,7 +34,7 @@ public class Main {
         currentUser = null;
 
         System.out.println("*---------------------------------------------------*");
-        System.out.println("|            Welcome the our bank!                  |");
+        System.out.println("|            Welcome the THE bank!                  |");
         System.out.println("*---------------------------------------------------*");
         System.out.println("*            Enter (0) to Exit                     *");
         System.out.println("*            Enter (1) to Login                     *");
@@ -60,10 +47,11 @@ public class Main {
         do {
             switch (choice) {
                 case 0:
-                    System.out.println("Thank you for visiting our Bank, Please com again (^_^)");
+                    System.out.println("Thank you for visiting THE Bank, Please com again (^_^)");
+                    input.nextLine();
                     break;
                 case 1:
-                    currentUser = loginUser(numOfUsers, userList, currentUser);
+                    currentUser = loginUser(userList, currentUser);
                     if(currentUser == null){
                         runLoginMenu();
                     }
@@ -71,16 +59,15 @@ public class Main {
                     runUserMenu(currentUser);
                     break;
                 case 2:
-                    System.out.println("Registering new user..");
-                    currentUser = newUser(numOfUsers, userList);
-                    //CheckingController.addAccounts(currentUser);
+                    currentUser = newUser(userList);
                     input.nextLine();
-                    System.out.println("Done registering new user!");
                     choice = 4;
                     runUserMenu(currentUser);
                     break;
                 default:
-                    System.out.println("Default case selected");
+                    System.out.println("Invalid input, please select options 1, 2, or 0 to exit");
+                    input.nextLine();
+                    runLoginMenu();
             }
             input.nextLine();
         } while (choice != 0);
@@ -96,9 +83,7 @@ public class Main {
         DecimalFormat dec = new DecimalFormat("#0.00");
 
         System.out.println("*---------------------------------------------------*");
-        System.out.println("|            "+currentUser.getUsername()+"                  |");
-        System.out.println("|            Welcome the our bank!                  |");
-        System.out.println("*---------------------------------------------------*");
+        System.out.println("              Welcome "+currentUser.getUsername()+" ");
         System.out.println("*---------------------------------------------------*");
         System.out.println("*     Enter (0) to Exit                             *");
         System.out.println("*     Enter (1) to Make a Deposit                   *");
@@ -115,14 +100,12 @@ public class Main {
         do {
             switch (choice) {
                 case 0:
-                    System.out.println("Thank you for visiting our Bank, Please come again (^_^)");
+                    System.out.println("Thank you for visiting THE Bank, Please come again (^_^)");
                     break;
                 case 1:
                     System.out.println("How Much would you like to deposit?");
                     amount = input.nextDouble();
-                    //balance = balance + amount;
-
-                    CheckingController.updateBalance(amount, "deposit", currentUser);
+                    CheckingController.updateBalance(amount, "Deposit", currentUser);
                     input.nextLine();
                     amount = 0.00;
                     runUserMenu(currentUser);
@@ -130,7 +113,7 @@ public class Main {
                 case 2:
                     System.out.println("How Much would you like to withdraw?");
                     amount = input.nextDouble();
-                    CheckingController.updateBalance(amount, "withdraw", currentUser);
+                    CheckingController.updateBalance(amount, "Withdrawal", currentUser);
                     input.nextLine();
                     runUserMenu(currentUser);
                     break;
@@ -141,11 +124,12 @@ public class Main {
                     break;
                 case 4:
                     currentUser = null;
-                    //System.out.println("Current User on logout: " + currentUser.getUsername());
                     runLoginMenu();
                     break;
                 default:
-                    System.out.println("Default case selected");
+                    System.out.println("Invalid input, please select options 1, 2, 3, 4, or 0 to exit");
+                    input.nextLine();
+                    runUserMenu(currentUser);
             }
             input.nextLine();
         } while (choice != 0);
