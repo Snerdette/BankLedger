@@ -1,24 +1,22 @@
 package com.company.entities;
 
-import com.company.Main;
-import com.company.entities.Checking;
-import java.text.DecimalFormat;
-
-import static com.company.entities.Checking.transactions;
-
 public class Transaction {
 
     int id;
     double amount;
+    int userId;
     String type;
     User user;
+    public static int transactionsId = 1;
 
     public Transaction(){};
 
-    public Transaction(double amount, String type, User user, int transactionsId){
+    public Transaction(double amount, String type, User user){
         this.amount = amount;
         this.type = type;
-        this.id = id;
+        this.id = transactionsId;
+        this.userId = user.getId();
+        this.user = user;
 
         transactionsId++;
     }
@@ -47,6 +45,11 @@ public class Transaction {
         this.type = type;
     }
 
+    public User getUser() {
+        return user;
+    }
 
-
+    public void setUser(User user) {
+        this.user = user;
+    }
 }

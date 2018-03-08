@@ -1,23 +1,24 @@
 package com.company.entities;
 
+import com.company.controllers.CheckingController;
+
 import java.util.ArrayList;
-import java.util.List;
 
 public class Checking {
 
     int id;
-    static double balance;
-    public static ArrayList<Transaction> transactions;
+    double balance;
+    public ArrayList<Transaction> transactions;
+    public ArrayList<Checking> accounts;
 
 
-    public Checking(User currentUser, int transactionsId){
+    public Checking(User currentUser){
         this.id = currentUser.getId();
         this.balance = 0.00;
         this.transactions = new ArrayList<Transaction>();
-        Transaction newTransaction = new Transaction(balance, "New Account", currentUser, transactionsId);
+        Transaction newTransaction = new Transaction(balance, "New Account", currentUser);
         this.transactions.add(newTransaction);
 
-        System.out.println("Checking account made for user ID: " + id);
     }
 
     public Integer getId() {
@@ -28,21 +29,27 @@ public class Checking {
         this.id = id;
     }
 
-    public static Double getBalance() {
+    public Double getBalance() {
         return balance;
     }
 
-    public static void setBalance(Double balance) {
-        Checking.balance = balance;
+    public void setBalance(Double balance) {
+        this.balance = balance;
     }
 
     public void setTransactions(ArrayList<Transaction> transactions){
         this.transactions = transactions;
     }
 
-    public static ArrayList<Transaction> getTransactions(){
+    public ArrayList<Transaction> getTransactions(){
         return transactions;
     }
 
+    public ArrayList<Checking> getAccounts() {
+        return accounts;
+    }
 
+    public void setAccounts(ArrayList<Checking> accounts) {
+        this.accounts = accounts;
+    }
 }
