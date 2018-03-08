@@ -8,26 +8,21 @@ import java.util.ArrayList;
 import java.util.Scanner;
 import java.text.DecimalFormat;
 
+import com.company.entities.Checking;
 import com.company.entities.User;
 
 import static com.company.controllers.UserController.*;
-import static com.company.entities.Checking.getBalance;
+import static com.company.entities.User.numOfUsers;
+
 import com.company.controllers.CheckingController;
 import com.company.controllers.TransactionController;
 
 
 public class Main {
 
-
     static ArrayList<User> userList = new ArrayList<User>();
 
-    static int numOfUsers = 0; //Used to set user ID's
-
-    static int transactionsId = 0;
-
     boolean exit = false; //Used for exciting the menu.
-
-    static int currentUserID = 0;//Currently Logged in user's ID.
 
     static User currentUser;
 
@@ -37,7 +32,7 @@ public class Main {
 
         if(currentUser == null){
             System.out.println("Entering Login Menu");
-            main.runLoginMenu(currentUser);
+            main.runLoginMenu();
         } else {
             System.out.println("Entering User Menu");
             //main.runUserMenu();
@@ -45,7 +40,7 @@ public class Main {
 
     }
 
-    public void runLoginMenu(User currentUser){
+    public void runLoginMenu(){
 
         int choice = -1;
         Scanner input = new Scanner(System.in);
@@ -70,13 +65,15 @@ public class Main {
                 case 1:
                     currentUser = loginUser(numOfUsers, userList, currentUser);
                     if(currentUser == null){
-                        runLoginMenu(currentUser);
+                        runLoginMenu();
                     }
+                    input.nextLine();
                     runUserMenu(currentUser);
                     break;
                 case 2:
                     System.out.println("Registering new user..");
-                    currentUser = newUser(numOfUsers, userList, transactionsId);
+                    currentUser = newUser(numOfUsers, userList);
+                    //CheckingController.addAccounts(currentUser);
                     input.nextLine();
                     System.out.println("Done registering new user!");
                     choice = 4;
@@ -90,11 +87,11 @@ public class Main {
     }
 
     public void runUserMenu(User currentUser){
-
+        Checking checking = currentUser.getChecking();
         int choice = -1;
         Scanner input = new Scanner(System.in);
-        double balance = getBalance();
         double amount = 0.00;
+        double balance = checking.getBalance();
 
         DecimalFormat dec = new DecimalFormat("#0.00");
 
@@ -125,7 +122,7 @@ public class Main {
                     amount = input.nextDouble();
                     //balance = balance + amount;
 
-                    CheckingController.updateBalance(amount, "deposit", transactionsId, currentUser);
+                    CheckingController.updateBalance(amount, "deposit", currentUser);
                     input.nextLine();
                     amount = 0.00;
                     runUserMenu(currentUser);
@@ -133,17 +130,19 @@ public class Main {
                 case 2:
                     System.out.println("How Much would you like to withdraw?");
                     amount = input.nextDouble();
-                    CheckingController.updateBalance(amount, "withdraw", transactionsId, currentUser);
+                    CheckingController.updateBalance(amount, "withdraw", currentUser);
                     input.nextLine();
                     runUserMenu(currentUser);
                     break;
                 case 3:
                     TransactionController.printAllTransactions(currentUser);
                     input.nextLine();
+                    runUserMenu(currentUser);
                     break;
                 case 4:
                     currentUser = null;
-                    runLoginMenu(currentUser);
+                    //System.out.println("Current User on logout: " + currentUser.getUsername());
+                    runLoginMenu();
                     break;
                 default:
                     System.out.println("Default case selected");

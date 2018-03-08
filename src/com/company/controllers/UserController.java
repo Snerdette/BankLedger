@@ -1,14 +1,13 @@
 package com.company.controllers;
 
-import com.company.Main;
-import com.company.entities.Checking;
-import com.company.entities.User;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
+import com.company.entities.Checking;
+import com.company.entities.User;
 
 public class UserController {
 
@@ -17,59 +16,58 @@ public class UserController {
 
     public static User loginUser(int numOfUsers, ArrayList<User> userList, User currentUser) {
 
-    String inUsername, inPassword;
-
-    boolean isValid = false;
-    Scanner input = new Scanner(System.in);
-
-    System.out.println("Enter your username: ");
-    inUsername = input.nextLine();
-
-    System.out.println("Enter your password: ");
-    inPassword = input.nextLine();
-
-    Iterator itr = userList.iterator();
-
-
-    if (userList.size() > 0) {
-        try {
-            do {
-                User user = (User) itr.next();
-                System.out.println("Iterator: Username: " + inUsername);
-
-                if (user.getUsername().equals(inUsername) && user.getPassword().equals(inPassword)) {
-                    System.out.println("Username and password have been validated, Welcome " + user.getUsername());
-                    isValid = true;
-                    currentUser = user;
-                } else {
-                    System.out.println("Username and password do not match any on record, please register or contact your local branch");
-                }
-            } while (itr.hasNext());
-
-        } catch (NullPointerException e) {
-            System.out.println("Catch block " + e);
-            throw e;
-
-        } finally {
-            System.out.println("Finally block");
-        }
-    } else {
-        System.out.println("There are no current registered users, please register!");
-    }
-    return currentUser;
-}
-
-    public static User newUser(int numOfUsers, ArrayList<User> userList, int transactionsId){
-
-        System.out.println("Getting ready to welcome a new user....");
-
-        String username, password;
-        boolean userValid = false;
-        boolean passwordValid = false;
+        String inUsername, inPassword;
+        boolean found = false;
 
         Scanner input = new Scanner(System.in);
-        System.out.println("Username must have at least one lowercase, one uppercase letters, one special character, and be at least 8 characters long");
+        Iterator itr = userList.iterator();
+
+        System.out.println("Enter your username: ");
+        inUsername = input.nextLine();
+
+        System.out.println("Enter your password: ");
+        inPassword = input.nextLine();
+
+
+        if(userList.size() <= 0){
+            System.out.println("There are no registered users, please register!");
+        }
+        else {
+            do {
+                User user = (User) itr.next();
+
+                if (user.getUsername().equals(inUsername)) {
+                    found = true;
+                    if(user.getPassword().equals(inPassword)){
+                        System.out.println("Username and password have been validated, Welcome " + user.getUsername());
+                        currentUser = user;
+                    } else {
+                            System.out.println("Incorrect Password, if you forgot the password please contact the network administrator");
+                    }
+                } else {
+
+                }
+            } while (itr.hasNext());
+        }
+
+        if(!found){
+            System.out.println("Username does not match any on record, please register or contact your local branch");
+            System.out.println("Remember that username's and passwords are case sensitive");
+        }
+        return currentUser;
+    }
+
+    public static User newUser(int numOfUsers, ArrayList<User> userList){
+
+        String username, password;
+
+        Scanner input = new Scanner(System.in);
+
+        System.out.println("Getting ready to welcome a new user....");
+        System.out.println("Username Requirements:");
+        System.out.println("1 lowercase, 1 uppercase letters, 1 special character, and a length of 8 or more");
         System.out.println("Please enter a new username: ");
+
         username = input.nextLine();
 
         if(!validateNewUsername(username)){
@@ -93,7 +91,11 @@ public class UserController {
             while(!validateNewPassword(password));
         }
 
-        User thisUser = new User(username, password, numOfUsers, transactionsId);
+        User thisUser = new User(username, password);
+
+        Checking checking = thisUser.getChecking();
+        ArrayList<Checking> accounts = checking.getAccounts();
+
         userList.add(thisUser);
 
         System.out.println("Welcome " + username + " to our bank!");
@@ -101,8 +103,13 @@ public class UserController {
         return thisUser;
     }
 
+    public static double getBalanceForUser(User currentUser){
+        double balance = 0.00;
+        CheckingController.getBalanceForUser(currentUser);
+        return balance;
+    }
+
     public static boolean validateNewPassword(String password){
-        boolean valid = false;
 
         Pattern pattern;
         Matcher matcher;
@@ -115,7 +122,6 @@ public class UserController {
     }
 
     private static boolean validateNewUsername(String username) {
-        boolean valid = false;
 
         Pattern pattern;
         Matcher matcher;
@@ -126,12 +132,4 @@ public class UserController {
         return matcher.matches();
     }
 
-    public static void printAllUsers(ArrayList<User> userList){
-        Iterator itr = userList.iterator();
-
-        while(itr.hasNext()){
-            User user = (User)itr.next();
-            System.out.println("ID: " + user.id + " Username: " + user.username + " Password: " + user.password);
-        }
-    }
 }
