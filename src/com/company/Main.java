@@ -6,23 +6,14 @@ package com.company;
 
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.List;
 import java.text.DecimalFormat;
 
-import com.company.controllers.CheckingController;
-import com.company.entities.Checking;
-import com.company.entities.Transaction;
 import com.company.entities.User;
-import com.company.services.UserService;
 
 import static com.company.controllers.UserController.*;
-import static com.company.controllers.CheckingController.*;
-import static com.company.entities.Checking.*;
 import static com.company.entities.Checking.getBalance;
-import static javafx.application.Platform.exit;
-
+import com.company.controllers.CheckingController;
+import com.company.controllers.TransactionController;
 
 
 public class Main {
@@ -85,7 +76,7 @@ public class Main {
                     break;
                 case 2:
                     System.out.println("Registering new user..");
-                    currentUser = newUser(numOfUsers, userList);
+                    currentUser = newUser(numOfUsers, userList, transactionsId);
                     input.nextLine();
                     System.out.println("Done registering new user!");
                     choice = 4;
@@ -147,7 +138,8 @@ public class Main {
                     runUserMenu(currentUser);
                     break;
                 case 3:
-                    Transaction.printAllTransactions(currentUser);
+                    TransactionController.printAllTransactions(currentUser);
+                    input.nextLine();
                     break;
                 case 4:
                     currentUser = null;

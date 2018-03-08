@@ -7,13 +7,15 @@ public class Checking {
 
     int id;
     static double balance;
-    static ArrayList<Transaction> transactions;
+    public static ArrayList<Transaction> transactions;
 
 
-    public Checking(int id){
-        this.id = id;
+    public Checking(User currentUser, int transactionsId){
+        this.id = currentUser.getId();
         this.balance = 0.00;
-        this.transactions = transactions;
+        this.transactions = new ArrayList<Transaction>();
+        Transaction newTransaction = new Transaction(balance, "New Account", currentUser, transactionsId);
+        this.transactions.add(newTransaction);
 
         System.out.println("Checking account made for user ID: " + id);
     }
@@ -38,7 +40,7 @@ public class Checking {
         this.transactions = transactions;
     }
 
-    public static List<Transaction> getTransactions(){
+    public static ArrayList<Transaction> getTransactions(){
         return transactions;
     }
 

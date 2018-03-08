@@ -8,13 +8,13 @@ public class User {
 
     public User(){};
 
-    public User(String username, String password, int numOfUsers){
+    public User(String username, String password, int numOfUsers, int transactionsId){
         numOfUsers++; //Used to set ID's, originally 0, set to 1 for first ID.
         this.username = username;
         this.password = password;
         this.id = numOfUsers;
 
-
+        Checking newChecking = new Checking(this, transactionsId);
     }
 
     public Integer getId() {
