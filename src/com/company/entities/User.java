@@ -29,7 +29,7 @@ public class User {
         return username;
     }
 
-    public void setUsername(String username) {
+    public void setUsernamee(String username) {
         this.username = username;
     }
 

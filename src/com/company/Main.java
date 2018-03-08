@@ -13,6 +13,7 @@ import java.text.DecimalFormat;
 
 import com.company.controllers.CheckingController;
 import com.company.entities.Checking;
+import com.company.entities.Transaction;
 import com.company.entities.User;
 import com.company.services.UserService;
 
@@ -50,7 +51,6 @@ public class Main {
             System.out.println("Entering User Menu");
             //main.runUserMenu();
         }
-
 
     }
 
@@ -116,7 +116,7 @@ public class Main {
         System.out.println("*     Enter (1) to Make a Deposit                   *");
         System.out.println("*     Enter (2) to Make a Withdrawal                *");
         System.out.println("*     Enter (3) to See Transaction History          *");
-        System.out.println("*     Enter (3) to Logout & return to main menu     *");
+        System.out.println("*     Enter (4) to Logout & return to main menu     *");
         System.out.println("*---------------------------------------------------*");
         System.out.println("Your current balance is: $" + dec.format(balance));
         System.out.println("\nEnter Choice: ");
@@ -134,7 +134,7 @@ public class Main {
                     amount = input.nextDouble();
                     //balance = balance + amount;
 
-                    CheckingController.updateBalance(amount, "deposit");
+                    CheckingController.updateBalance(amount, "deposit", transactionsId, currentUser);
                     input.nextLine();
                     amount = 0.00;
                     runUserMenu(currentUser);
@@ -142,11 +142,14 @@ public class Main {
                 case 2:
                     System.out.println("How Much would you like to withdraw?");
                     amount = input.nextDouble();
-                    CheckingController.updateBalance(amount, "withdraw");
+                    CheckingController.updateBalance(amount, "withdraw", transactionsId, currentUser);
                     input.nextLine();
                     runUserMenu(currentUser);
                     break;
                 case 3:
+                    Transaction.printAllTransactions(currentUser);
+                    break;
+                case 4:
                     currentUser = null;
                     runLoginMenu(currentUser);
                     break;

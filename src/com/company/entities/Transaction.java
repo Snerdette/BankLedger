@@ -2,6 +2,8 @@ package com.company.entities;
 
 import com.company.entities.Checking;
 
+import static com.company.entities.Checking.transactions;
+
 public class Transaction {
 
     int id;
@@ -41,6 +43,15 @@ public class Transaction {
 
     public void setType(){
         this.type = type;
+    }
+
+    public static void printAllTransactions(User currentUser){
+        Checking.getTransactions();
+        int i;
+
+        for(i = 0; i< transactions.size(); i++){
+            System.out.println("ID: " +  " Amount: $ "  );
+        }
     }
 
 }

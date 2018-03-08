@@ -4,8 +4,6 @@ public class TransactionController {
 
     public double deposit(double amount){
         double newBalance = 0.00;
-
-
         return newBalance;
     }
 
