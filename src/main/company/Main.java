@@ -3,17 +3,17 @@
 // Date: 2018-03-08
 // Version: 1.0
 
-package com.company;
+package main.company;
 
 import java.util.ArrayList;
 import java.util.Scanner;
 import java.text.DecimalFormat;
 
-import com.company.entities.User;
-import com.company.entities.Checking;
-import com.company.controllers.CheckingController;
-import com.company.controllers.TransactionController;
-import static com.company.controllers.UserController.*;
+import main.company.entities.User;
+import main.company.entities.Checking;
+import main.company.controllers.CheckingController;
+import main.company.controllers.TransactionController;
+import static main.company.controllers.UserController.*;
 
 public class Main {
 
