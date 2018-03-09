@@ -9,9 +9,9 @@ import java.util.ArrayList;
 
 public class TransactionController {
 
-    static DecimalFormat dec = new DecimalFormat("#0.00");
+    DecimalFormat dec = new DecimalFormat("#0.00");
 
-    public static void printAllTransactions(User currentUser){
+    public  void printAllTransactions(User currentUser){
         Checking checking = currentUser.getChecking();
         ArrayList<Transaction> transactions = checking.getTransactions();
 

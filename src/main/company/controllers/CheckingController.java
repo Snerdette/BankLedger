@@ -9,7 +9,7 @@ import java.text.DecimalFormat;
 public class CheckingController {
 
 
-    public static double updateBalance(double amount, String type, User currentUser){
+    public double updateBalance(double amount, String type, User currentUser){
 
         double balance = getBalanceForUser(currentUser);
         DecimalFormat dec = new DecimalFormat("#0.00");
@@ -40,7 +40,7 @@ public class CheckingController {
         return balance;
     }
 
-    public static double getBalanceForUser(User currentUser){
+    public double getBalanceForUser(User currentUser){
 
         Checking checking = currentUser.getChecking();
         double balance = checking.getBalance();

@@ -13,7 +13,7 @@ public class UserController {
     private static String PASSWORD_POLICY_PATTERN = "^(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!*])(?=\\S+$).{8,}$";
     private static String USERNAME_POLICY_PATTERN = "^(?=.*[a-z]).{8,}$";
 
-    public static User loginUser(ArrayList<User> userList, User currentUser) {
+    public User loginUser(ArrayList<User> userList, User currentUser) {
 
         String inUsername, inPassword;
         boolean found = false;
@@ -21,17 +21,17 @@ public class UserController {
         Scanner input = new Scanner(System.in);
         Iterator itr = userList.iterator();
 
-        System.out.println("Enter your username: ");
-        inUsername = input.nextLine();
-
-        System.out.println("Enter your password: ");
-        inPassword = input.nextLine();
-
 
         if(userList.size() <= 0){
             System.out.println("There are no registered users, please register!");
         }
         else {
+            System.out.println("Enter your username: ");
+            inUsername = input.nextLine();
+
+            System.out.println("Enter your password: ");
+            inPassword = input.nextLine();
+
             do {
                 User user = (User) itr.next();
 
@@ -45,16 +45,17 @@ public class UserController {
                     }
                 }
             } while (itr.hasNext());
+
+            if(!found){
+                System.out.println("Username does not match any on record, please register or contact your local branch");
+                System.out.println("Remember that username's and passwords are case sensitive");
+            }
         }
 
-        if(!found){
-            System.out.println("Username does not match any on record, please register or contact your local branch");
-            System.out.println("Remember that username's and passwords are case sensitive");
-        }
         return currentUser;
     }
 
-    public static User newUser(ArrayList<User> userList){
+    public User newUser(ArrayList<User> userList){
 
         String username, password;
 
@@ -96,7 +97,7 @@ public class UserController {
         return thisUser;
     }
 
-    public static boolean validateNewPassword(String password){
+    public boolean validateNewPassword(String password){
 
         Pattern pattern;
         Matcher matcher;
@@ -108,7 +109,7 @@ public class UserController {
 
     }
 
-    private static boolean validateNewUsername(String username) {
+    private boolean validateNewUsername(String username) {
 
         Pattern pattern;
         Matcher matcher;
