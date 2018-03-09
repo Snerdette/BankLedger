@@ -1,8 +1,8 @@
-package com.company.controllers;
+package main.company.controllers;
 
-import com.company.entities.Checking;
-import com.company.entities.Transaction;
-import com.company.entities.User;
+import main.company.entities.Checking;
+import main.company.entities.Transaction;
+import main.company.entities.User;
 
 import java.text.DecimalFormat;
 

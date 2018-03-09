@@ -1,4 +1,4 @@
-package com.company.entities;
+package main.company.entities;
 
 import java.util.ArrayList;
 

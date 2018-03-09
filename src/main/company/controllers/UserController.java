@@ -1,4 +1,4 @@
-package com.company.controllers;
+package main.company.controllers;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -6,7 +6,7 @@ import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.company.entities.User;
+import main.company.entities.User;
 
 public class UserController {
 
